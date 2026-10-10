@@ -1,0 +1,32 @@
+
+name: Hola Mundo y notificacion ntfy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  hola-mundo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Ejecutar Hola Mundo
+        run: node hola.js
+
+      - name: Enviar notificacion a ntfy
+        run: |
+          curl --fail -sS \
+            -H "Title: GitHub Actions - DM-P3" \
+            -H "Priority: default" \
+            -H "Tags: white_check_mark" \
+            -d "Se ha subido codigo a la rama main del repositorio DM-P3. El workflow de GitHub Actions se ha ejecutado." \
+            https://ntfy.sh/devops-itla
